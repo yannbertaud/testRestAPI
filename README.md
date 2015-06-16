@@ -6,7 +6,7 @@ Clone the above repo and from the root folder of that repo run:
 
 ```mvn spring-boot:run```
 
-from a seperate shell, run:
+after cloning this repo, from a seperate shell go into this repo's root folder and run:
 
 ```mvn clean install```
 
