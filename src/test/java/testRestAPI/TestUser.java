@@ -1,4 +1,4 @@
-package main.java.testRestAPI;
+package test.java.testRestAPI;
 
 import static org.junit.Assert.*;
 
