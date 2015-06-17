@@ -10,7 +10,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-public class RequestUtil {
+import test.java.common.Common;
+
+public class RequestUtil extends Common{
 	private final String USER_AGENT = "Mozilla/5.0";
 	
 	private int responseCode;
@@ -58,8 +60,8 @@ public class RequestUtil {
 			}
 	 
 			this.responseCode = con.getResponseCode();
-			System.out.println("\nSending '" + requestMethod + "' request to URL : " + url);
-			System.out.println("Response Code : " + responseCode);
+			action("Sending '" + requestMethod + "' request to URL : " + url);
+			//System.out.println("Response Code : " + responseCode);
 	 
 			BufferedReader in = new BufferedReader(
 			        new InputStreamReader(con.getInputStream()));
