@@ -47,7 +47,7 @@ public class TestUser extends Common {
 		// http://www.mkyong.com/webservices/jax-rs/restfull-java-client-with-java-net-url/
 		String url = "http://localhost:8080/users";
 		String jsonInput = "{\"firstName\": \"John\", \"lastName\": \"smith\", \"email\": \"johnsmith@gmail.com\"}";
-		postJSONRequest(url, jsonInput);
+		verifyEquals("201 Created", postJSONRequest(url, jsonInput), "user created successfully");
 	}
 
 	@Test
