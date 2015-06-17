@@ -14,39 +14,25 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-public class TestUser {
+import test.java.common.Common;
+
+public class TestUser extends Common{
 
 	@Test
 	public void testUserExists() throws IOException {
 		String url = "http://localhost:8080/users/1";
 		RequestUtil util = new RequestUtil(url);
 		
-		assertEquals(util.getResponseCode(), 200);
-		assertEquals(util.getResponse(), "{\"firstName\":\"yann\",\"lastName\":\"bertaud\",\"email\":null,\"password\":null,\"userId\":1}");
+		verifyEquals(util.getResponseCode(), 200, "response code");
+		verifyEquals(util.getResponse(), "{\"firstName\":\"yann\",\"lastName\":\"bertaud\",\"email\":null,\"password\":null,\"userId\":1}", "response");
 	}
 	
 	@Test
 	public void testUserDoesNotExist() throws IOException {
 		String url = "http://localhost:8080/users/5";
 		RequestUtil util = new RequestUtil(url);
-		assertEquals(util.getResponseCode(), 404);
+		verifyEquals(util.getResponseCode(), 404, "response code");
 	}
-	
-//	@Test
-//	public void testCreateUser() throws IOException {
-//		String url = "http://localhost:8080/users/5";
-//		RequestUtil util = new RequestUtil(url, "POST");
-//		assertEquals(util.getResponseCode(), 405);
-//		assertEquals(util.getResponse(), null);
-//	}
-//	
-//	@Test
-//	public void testUpdateUser() throws IOException {
-//		String url = "http://localhost:8080/users/5";
-//		RequestUtil util = new RequestUtil(url, "PUT");
-//		assertEquals(util.getResponseCode(), 405);
-//		assertEquals(util.getResponse(), null);
-//	}
 	
 	@Test
 	public void testCreateUser() {
@@ -58,34 +44,48 @@ public class TestUser {
 	
 	@Test
 	public void testDeleteUser() {
-		int userId = 1;
-		assertEquals(deleteUser(userId), "202 Accepted");
+		verifyEquals(deleteUser(1, "deleting existing user"), "202 Accepted", "delete user succeeded");
 
 	}
 	
+	
 	@Test
 	public void testDeleteNonExistingUser() {
-		int userId = 5;
-		assertEquals(deleteUser(userId), "404 Not Found");
+		
+		verifyEquals(deleteUser(5, "deleting non existing user"), "404 Not Found", "delete non existing user response code");
 	}
 
-	private String deleteUser(int userId) {
+	@Test
+	public void testUserAuthentication() {
+		
+	}
+	
+	// test 
+	
+	
+	
+	
+	
+	
+	
+	private String deleteUser(int userId, String message) {
 		String url = "http://localhost:8080/users/delete/" + userId;
-		String response = null;
+		String responseCode = null;
 		HttpURLConnection conn;
 		try {
-			System.out.println("deleting user");
+			System.out.println(message);
 			conn = (HttpURLConnection) (new URL(url)).openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("DELETE");
-			response = conn.getResponseCode() + " " + conn.getResponseMessage();
-			System.out.println(response);
-			return response;
+			responseCode = conn.getResponseCode() + " " + conn.getResponseMessage();
+			System.out.println("\nSending 'Delete' request to URL : " + url);
+			System.out.println("Response Code : " + responseCode);
+			return responseCode;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return response;
+		return responseCode;
 	}
 	
 	private void postJSONRequest(String url, String jsonInput) {
