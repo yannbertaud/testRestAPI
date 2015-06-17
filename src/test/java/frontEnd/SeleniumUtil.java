@@ -29,7 +29,7 @@ public class SeleniumUtil extends Common{
 	}
 	
 	protected void getPage(String url) {
-		println("Opening page: " + url);
+		action("Opening page: " + url);
 		driver.get(url);
 	}
 	

@@ -15,8 +15,8 @@ public class TestUserSelenium extends SeleniumUtil{
 	 @Test
 	 public void verifyUsersPage(){
 	
-		 println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
-	     getPage("http://localhost:8080/yann.html");
+		 println("\nStarting test " + new Object(){}.getClass().getEnclosingMethod().getName());
+	     getPage("http://localhost:8080/admin/user/editUser.html");
 	     verifyTrue(driver.findElementByName("firstName").isDisplayed(), "firstName field is displayed");
 	     verifyTrue(driver.findElementByName("lastName").isDisplayed(), "lastName field is displayed");
 	     verifyTrue(driver.findElementByName("email").isDisplayed(), "email field is displayed");
