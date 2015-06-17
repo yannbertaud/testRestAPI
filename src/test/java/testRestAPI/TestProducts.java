@@ -10,7 +10,7 @@ public class TestProducts extends Common{
 	
 	@Test
 	public void testProductExists() throws IOException {
-		println("Starting test " + new Object() {
+		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		String url = "http://localhost:8080/products/1";
 		RequestUtil util = new RequestUtil(url);
@@ -20,7 +20,7 @@ public class TestProducts extends Common{
 
 	@Test
 	public void testProductDoesNotExist() throws IOException {
-		println("Starting test " + new Object() {
+		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		String url = "http://localhost:8080/products/12";
 		RequestUtil util = new RequestUtil(url);
@@ -30,7 +30,7 @@ public class TestProducts extends Common{
 	
 	@Test
 	public void testFindProductByFullName() throws IOException {
-		println("Starting test " + new Object() {
+		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		String url = "http://localhost:8080/products/find?name=3ds+max+2015";
 		RequestUtil util = new RequestUtil(url);
@@ -42,7 +42,7 @@ public class TestProducts extends Common{
 	
 	@Test
 	public void testFindProductByPartialNameSingleResult() throws IOException {
-		println("Starting test " + new Object() {
+		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		String url = "http://localhost:8080/products/find?name=3ds";
 		RequestUtil util = new RequestUtil(url);
@@ -54,7 +54,7 @@ public class TestProducts extends Common{
 
 	@Test
 	public void testFindProductByPartialNameMultipleResults() throws IOException {
-		println("Starting test " + new Object() {
+		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		String url = "http://localhost:8080/products/find?name=2015";
 		RequestUtil util = new RequestUtil(url);

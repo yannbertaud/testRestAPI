@@ -30,7 +30,7 @@ public class TestUser extends Common {
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0}",
+				"{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":\"andy.foobar@gmail.com\",\"password\":null,\"id\":0}",
 				util.getResponse(), "response");
 	}
 
@@ -48,7 +48,7 @@ public class TestUser extends Common {
 		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		String url = "http://localhost:8080/users";
-		String jsonInput = "{\"firstName\": \"John\", \"lastName\": \"smith\", \"email\": \"johnsmith@gmail.com\"}";
+		String jsonInput = "{\"firstName\": \"John\", \"lastName\": \"doe\", \"email\": \"johnDoe@apple.com\"}";
 		verifyEquals("409 Conflict", postJSONRequest(url, jsonInput), "response code for user not created");
 	}
 
@@ -68,7 +68,7 @@ public class TestUser extends Common {
 		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		String url = "http://localhost:8080/users";
-		String jsonInput = "{\"firstName\": \"John\", \"lastName\": \"smith\", \"email\": \"johnsmith@gmail.com\"}";
+		String jsonInput = "{\"firstName\": \"John\", \"lastName\": \"doe\", \"email\": \"johndoe@apple.com\"}";
 		verifyEquals("202 Accepted", putJSONRequest(url, jsonInput),
 				"update user");
 	}
@@ -78,7 +78,7 @@ public class TestUser extends Common {
 		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		verifyEquals("202 Accepted", deleteUser(1, "deleting existing user"),
-				"delete user succeeded");
+				"response code for delete user succeeded");
 	}
 
 	@Test
@@ -86,8 +86,8 @@ public class TestUser extends Common {
 		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
 		verifyEquals("404 Not Found",
-				deleteUser(5, "deleting non existing user"),
-				"delete non existing user response code");
+				deleteUser(10, "deleting non existing user"),
+				"response code for delete non existing user");
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class TestUser extends Common {
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0}]",
+				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":\"andy.foobar@gmail.com\",\"password\":null,\"id\":0}]",
 				util.getResponse(), "response");
 	}
 
@@ -112,7 +112,7 @@ public class TestUser extends Common {
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0},{\"firstName\":\"andy\",\"lastName\":\"smith\",\"email\":null,\"password\":null,\"id\":2}]",
+				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":\"andy.foobar@gmail.com\",\"password\":null,\"id\":0},{\"firstName\":\"andy\",\"lastName\":\"smith\",\"email\":null,\"password\":null,\"id\":2}]",
 				util.getResponse(), "response");
 	}
 
@@ -125,7 +125,7 @@ public class TestUser extends Common {
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0}]",
+				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":\"andy.foobar@gmail.com\",\"password\":null,\"id\":0}]",
 				util.getResponse(), "response");
 	}
 
@@ -165,10 +165,6 @@ public class TestUser extends Common {
 			os.flush();
 			responseCode = conn.getResponseCode() + " "
 					+ conn.getResponseMessage();
-			// if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-			// throw new RuntimeException("failed : HTTP error code: " +
-			// conn.getResponseCode());
-			// }
 
 			action("Sending '" + conn.getRequestMethod()
 					+ "' request to URL : " + url);
