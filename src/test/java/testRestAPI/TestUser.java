@@ -10,6 +10,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.junit.Test;
@@ -22,12 +25,12 @@ public class TestUser extends Common {
 	public void testUserExists() throws IOException {
 		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
-		String url = "http://localhost:8080/users/1";
+		String url = "http://localhost:8080/users/0";
 		RequestUtil util = new RequestUtil(url);
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":1}",
+				"{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0}",
 				util.getResponse(), "response");
 	}
 
@@ -41,13 +44,23 @@ public class TestUser extends Common {
 	}
 
 	@Test
+	public void testCreateExistingUserShouldFail() {
+		println("\nStarting test " + new Object() {
+		}.getClass().getEnclosingMethod().getName());
+		String url = "http://localhost:8080/users";
+		String jsonInput = "{\"firstName\": \"John\", \"lastName\": \"smith\", \"email\": \"johnsmith@gmail.com\"}";
+		verifyEquals("409 Conflict", postJSONRequest(url, jsonInput), "response code for user not created");
+	}
+
+	@Test
 	public void testCreateUser() {
 		println("\nStarting test " + new Object() {
 		}.getClass().getEnclosingMethod().getName());
-		// http://www.mkyong.com/webservices/jax-rs/restfull-java-client-with-java-net-url/
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
 		String url = "http://localhost:8080/users";
-		String jsonInput = "{\"firstName\": \"John\", \"lastName\": \"smith\", \"email\": \"johnsmith@gmail.com\"}";
-		verifyEquals("201 Created", postJSONRequest(url, jsonInput), "user created successfully");
+		String jsonInput = "{\"firstName\": \"John" + dateFormat.format(date) + "\", \"lastName\": \"smith\", \"email\": \"johnsmith@gmail.com\"}";
+		verifyEquals("201 Created", postJSONRequest(url, jsonInput), "response code for user created");
 	}
 
 	@Test
@@ -86,7 +99,7 @@ public class TestUser extends Common {
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":1}]",
+				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0}]",
 				util.getResponse(), "response");
 	}
 
@@ -99,7 +112,7 @@ public class TestUser extends Common {
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":1},{\"firstName\":\"andy\",\"lastName\":\"smith\",\"email\":null,\"password\":null,\"id\":3}]",
+				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0},{\"firstName\":\"andy\",\"lastName\":\"smith\",\"email\":null,\"password\":null,\"id\":2}]",
 				util.getResponse(), "response");
 	}
 
@@ -112,7 +125,7 @@ public class TestUser extends Common {
 
 		verifyEquals(200, util.getResponseCode(), "response code");
 		verifyEquals(
-				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":1}]",
+				"[{\"firstName\":\"andy\",\"lastName\":\"foobar\",\"email\":null,\"password\":null,\"id\":0}]",
 				util.getResponse(), "response");
 	}
 
@@ -169,7 +182,7 @@ public class TestUser extends Common {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return responseCode;
 	}
